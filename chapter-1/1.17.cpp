@@ -8,12 +8,14 @@ int main() {
             if (val == currVal)  
                 ++cnt;  
             else { 
-                std::cout << currVal << " occurs " << cnt << " times" << std::endl;
+                std::cout << currVal << " occurs " 
+                          << cnt << " times" << std::endl;
                 currVal = val;    
                 cnt = 1;          
             }
         } 
-        std::cout << currVal << " occurs " << cnt << " times" << std::endl;
+        std::cout << currVal << " occurs " << cnt 
+                  << " times" << std::endl;
     } 
 
     return 0;

@@ -18,7 +18,8 @@ int main() {
     std::cin >> start >> end;
 
     if (start == end) {
-        std::cout << "The start & end numbers (" << start << ") are the same... " << std::endl;
+        std::cout << "The start & end numbers (" << start 
+                  << ") are the same... " << std::endl;
     } else {
         printRange(start,end);
     }

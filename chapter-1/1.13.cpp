@@ -12,6 +12,8 @@ int sumRange(const int& start, const int& end) {
 }
 
 int main() {
-    std::cout << "Sum of " << START << " to " << END << " inclusive is " << sumRange(START,END) << std::endl;
+    std::cout << "Sum of " << START << " to " 
+              << END << " inclusive is " 
+              << sumRange(START,END) << std::endl;
     return 0;
 }
