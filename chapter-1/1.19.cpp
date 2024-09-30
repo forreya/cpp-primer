@@ -1,3 +1,8 @@
+/*
+    Revise the program you wrote for the exercises in page 13 that printed a range of numbers
+    so that it handles input in which the first number is smaller than the second.
+*/
+
 #include <iostream>
 
 void printRange(const int& start, const int& end) {
@@ -21,11 +26,10 @@ int main() {
         std::cout << "The start & end numbers (" << start 
                   << ") are the same..." << std::endl;
     } else if (start > end){ 
-        std::cout << "The start number (" <<  start 
-                  << ") is larger than the end number (" 
-                  << end << ")..." << std::endl;
-    } else {
-        printRange(start,end);
+        int temp = start;
+        start = end;
+        end = temp;
     }
+    printRange(start,end);
     return 0;
 }

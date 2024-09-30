@@ -1,3 +1,7 @@
+/*
+    Rewrite the exercises from page 13 using for loops.
+*/
+
 #include <iostream>
 
 constexpr int START = 1;
