@@ -183,3 +183,38 @@ std::cout << i << " " << sum << std::endl;
 ```
 
 The program will print `100 45`.
+
+### Exercise 2.15
+> Which of the following definitions, if any, are invalid? Why?
+
+1. int ival = 1.01; => valid, however the value 1.01 is a double so the value will be implicitly truncated to 1, so there is a loss of precision.
+2. int &rval1 = 1.01; => invalid, can only bind an int reference to an int object, not to a double or a temporary value.
+3. int &rval2 = ival; => valid, binds the reference rval2 to the existing variable ival.
+4. int &rval3; => invalid => invalid, references must be initialized when they are declared, they cannot exist without pointing to an object.
+
+### Exercise 2.16
+> Which, if any, of the following assignments are invalid? If they are valid, explain what they do.
+
+```
+int i = 0, &r1 = i;
+double d = 0, &r2 = d;
+```
+
+1. r2 = 3.14159; => valid, here we are basically setting the variable d to 3.14159.
+2. r2 = r1; => valid, however since r1 is a reference to integer object i, the value of i will be implicitly converted into a double.
+3. i = r2; => valid, since i in an integer, the value of d will be implicitly truncated into an integer, resulting in loss of precision.
+4. r1 = d; => invalid, you cannot assign a double to an integer reference directly without casting.
+
+When assigning to references, the types must match exactly because a reference directly refers to an object of a specific type.
+
+### Exercise 2.17
+> What does the following code print?
+
+```
+int i, &ri = i;
+i = 5;
+ri = 10;
+std::cout << i << " " << ri << std::endl;
+```
+
+This will print "10 10".
