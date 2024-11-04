@@ -218,3 +218,190 @@ std::cout << i << " " << ri << std::endl;
 ```
 
 This will print "10 10".
+
+### Exercise 2.19
+> Explain the key differences between pointers and references.
+
+- Pointers are variables that have their own memory addresses. They can point to the address space of another object. The address that a pointer points to can be re-assigned (assuming they are not `const` pointers) and they can also point to `nullptr` to indicate that they are not currently pointing to any valid object.
+- References are not variables themselves, and therefore don't have their own memory addresses. They are binded to other objects in order to refer to them, acting as an alias. Once a reference is initialized to an object, it cannot be re-assigned, and so references must be binded to a valid object upon initialization.
+
+### Exercise 2.20
+> What does the following program do?
+
+```
+int i = 42;
+int *p1 = &i;
+*p1 = *p1 * *p1;
+```
+
+This program initializes `i` to be an integer with a value of 42. It then defines a pointer `p1` to point to the address of `i`. The line `*p1 = *p1 * *p1;` dereferences `pi` to access the value of `i`. It then squares this value (42x42), which results in 1764.
+
+### Exercise 2.21
+> Explain each of the following definitions. Indicate whether any are illegal and, if so, why.
+
+```
+int i = 0;
+(a) double* dp = &i;
+(b) int *ip = i;
+(c) int *p = &i;
+```
+
+- (a) This line initializes `dp` to be a pointer to a double object. However, this is illegal as `i` is an integer and a pointer to a double cannot be assigned an address of an integer without an explicit cast.
+- (b) This line initialies `ip` to be a pointer to an integer object. This is illegal a pointer must point to a memory address, not a value.
+- (c) This initializes `p` to be a pointer to an integer object. This is legal as it points to the memory address of `i`.
+
+### Exercise 2.22
+> Assuming p is a pointer to int, explain the following code:
+
+```
+if (p) // ...
+if (*p) // ...
+```
+
+- The first line checks if `p` is NOT a null pointer, meaning it points to a non-null memory address. 
+- The second line checks that the integer value of the object that `p` points to is anything but 0.
+
+### Exercise 2.23
+> Given a pointer p, can you determine whether p points to a valid object? If so, how? If not, why not?
+
+If the if block for `if (p)` runs, then pointer `p` points to a non-null memory address. However, this does not verify the validity of the object it points to. In C++, there is no built-in way to determine whether the memory a pointer refers to is valid or has been deallocated. This is because pointers only store addresses and do not contain information about the memory's validity.
+
+### Exercise 2.24
+> Why is the initialization of p legal but that of lp illegal?
+
+```
+int i = 42;
+void *p = &i;
+long *lp = &i;
+```
+
+Assigning an `int` address to a `long` pointer is not allowed without an explicit cast due to incompatible types. However, a void pointer is able to point to an an address of any data type, including `int`. The downside is that a void pointer won't actually know the type of the object it points to and therefore it cannot be dereferenced without a cast.
+
+### Exercise 2.25
+> Determine the types and values of each of the following variables.
+
+```
+(a) int* ip, &r = ip;
+(b) int i, *ip = 0;
+(c) int* ip, ip2;
+```
+
+- (a) `ip` is a pointer to an integer. `r` is a `*int` reference that is bound to the pointer `ip`.
+- (b) `i` is an integer. `ip` is an integer pointer that points to 0 (which means it's a null pointer, equivalent to `nullptr`)
+- (c) `ip` is a pointer to an integer. `ip2` is simply an integer.
+
+### Exercise 2.26
+> Which of the following are legal? For those that are illegal, explain why.
+
+```
+(a) const int buf;
+(b) int cnt = 0;
+(c) const int sz = cnt;
+(d) ++cnt;
+(e) ++sz;
+```
+
+- (a) Illegal, as a const type must be initialized at the time of declaration.
+- (b) Legal, `cnt` is initialized to 0.
+- (c) Legal, `sz` is initialized to the value of `cnt`, which is 0.
+- (d) Legal, `cnt` is now 1.
+- (e) Illegal, you cannot modify the value of a const type.
+
+### Exercise 2.27
+> Which of the following initializations are legal? Explain why.
+
+```
+(a) int i = -1, &r = 0;
+(b) int *const p2 = &i2;
+(c) const int i = -1, &r = 0;
+(d) const int *const p3 = &i2;
+(e) const int *p1 = &i2;
+(f) const int &const r2;
+(g) const int i2 = i, &r = i;
+```
+
+- (a) Illegal. `i` is an integer with value -1. However, `r` is a reference, and references must be bound to a valid object- not a literal like `0`.
+- (b) Legal if `i2` is an integer. `p2` is a const pointer that points to an integer, meaning the object it points to cannot change, but the value of that object can.
+- (c) Illegal. `i` is a const int, which is valid, but `r` is an attempt to bind a reference to `0`. Since r is a reference to `const int`, it must be bound to an actual object, not a literal.
+- (d) Legal if `i2` is a const int. `p3` has a top-level `const` and points to an integer of type `const int`, meaning neither the pointer nor the value it points to can be changed.
+- (e) Legal if `i2` is a const integer. `p1` is a `const int` pointer that points to the memory address of `i2`, so value it points to cannot be modified, but the pointer itself can be changed.
+- (f) Illegal. Assigning `const` quantifier to a reference is invalid as references are inherently (cannot be re-binded) constant.
+- (g) Legal. `i2` is a `const int` that is initialized to the value of `i`. `r` is a reference to a `const int` and is bound to `i`.
+
+### Exercise 2.28
+> Explain the following definitions. Identify any that are illegal.
+
+```
+(a) int i, *const cp;
+(b) int *p1, *const p2;
+(c) const int ic, &r = ic;
+(d) const int *const p3;
+(e) const int *p;
+```
+
+- (a) Illegal. The declaration of `i` is fine, but you cannot declare a `const` pointer without initializing it to point an object.
+- (b) Illegal. The declaration of `p1` is legal, but p2 is a `const` pointer to `int` and must be initialized to point to a valid `int` upon declaration.
+- (c) Illegal. `ic` is a const int, but it is not initialized. `const` variables must be initialized upon declaration. 
+- (d) Illegal. A `const` pointer must be initialized upon declaration.
+- (e) Legal. `p` is a pointer to `const int`. However, it is generally best practice to initialize pointers to avoid undefined behavior if they are dereferenced before being assigned.
+
+### Exercise 2.29
+> Using the variables in the previous exercise, which of the following assignments are legal? Explain why.
+
+```
+(a) i = ic;
+(b) p1 = p3;
+(c) p1 = &ic;
+(d) p3 = &ic;
+(e) p2 = p1;
+(f) ic = *p3;
+```
+
+- (a) Legal. Both variables are of type `int`. Eventhough `ic` is a const, this line is fine as it does not alter `ic`.
+- (b) Illegal. A pointer to `int` cannot be assigned to a pointer to `const int`.
+- (c) Illegal. A pointer to `int` cannot be assigned to a `const int`.
+- (d) Illegal. You cannot re-assign a `const` pointer to point to a different object.
+- (e) Illegal. You cannot re-assign a `const` pointer to point to a different object.
+- (f) Illegal. `ic` is a `const int`, so it cannot be modified.
+
+### Exercise 2.30
+> For each of the following declarations indicate whether the object being declared has top-level or low-level const.
+
+```
+(a) const int v2 = 0; int v1 = v2;
+(b) int *p1 = &v1, &r1 = v1;
+(c) const int *p2 = &v2, *const p3 = &i, &r2 = v2;
+```
+
+- (a) `v2` has top-level const, `v1` has no const on any level.
+- (b) Neither `p1` nor `r1` has const at any level.
+- (c) `p2` has low-level const, `p3` has const on both levels, `r2` has low level const.
+
+### Exercise 2.31
+> Given the declarations in the previous exercise determine whether the following assignments are legal. Explain how the top-level or low-level const applies in each case.
+
+```
+(a) r1 = v2;
+(b) p1 = p2;
+(c) p2 = p1;
+(d) p1 = p3;
+(e) p2 = p3;
+```
+
+- (a) Legal. The value of the object that reference `r1` is bound to is set to the value of `v2`. The `const int` type of `v2` does not matter as it's not being modified.
+- (b) Illegal. A pointer to `int` cannot be assigned to a `const int`, which is the type of object `p2` points to, as it would allow for modification of a `const int` object value through `p1`. The low-level const of `p2` prevents this assignment. 
+- (c) Illegal. A pointer to `const int` cannot be assigned to a `int`, which is the type of object `p1` points to. This is due to the low-level const in `p2`.
+- (d) Illegal. A pointer to `int` cannot be assigned to a `const int`, which is the type of object `p2` points to. The top-level const in `p3` prevents reassigning `p3`, but it’s the low-level const in `p3` that prevents this assignment, as `p1` would allow modification of a `const int`.
+- (e) Legal. The top-level `const` in `p3` does not matter as it won't be altered here. `p2` is assigned to the `const int` object that `p3` points to, they both have a low-level `const`.
+
+## Exercise 2.32
+> Is the following code legal or not? If not, how might you make it legal?
+
+```
+int null = 0, *p = null;
+```
+
+- The first declaration is legal and sets `null` to 0.
+- However, the second declaration is illegal. This sets `p` to point to the value of the `null` variable (aka 0), not the memory address of the `null` variable.
+- To make `p` a null pointer, we would do `int *p = nullptr;`.
+- To make `p` point to the null variable, we would do `int *p = &null;`.
