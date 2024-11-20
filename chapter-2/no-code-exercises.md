@@ -405,3 +405,94 @@ int null = 0, *p = null;
 - However, the second declaration is illegal. This sets `p` to point to the value of the `null` variable (aka 0), not the memory address of the `null` variable.
 - To make `p` a null pointer, we would do `int *p = nullptr;`.
 - To make `p` point to the null variable, we would do `int *p = &null;`.
+
+## Exercise 2.33
+> Using the variable definitions from this section, determine what happens in each of these assignments:
+
+```
+a = 42;
+b = 42;
+c = 42;
+d = 42;
+e = 42;
+g = 42;
+```
+
+1. 'a' is an `int` type.
+2. 'b' is an `int` type.
+3. 'c' is an `int` type.
+4. Invalid assignment as 'd' is of type `int*`, so the value needs to be a valid memory address to `int`. Assigning to a literal `int` is not allowed,
+5. Invalid assignment as 'e' is of type `const int*`, so the value needs to be a valid memory address to `const int`. Assigning to a literal `int` is not allowed,
+6. Invalid assignment as 'g' is a reference to `const int` so the underlying object's value cannot be changed.
+
+## Exercise 2.35
+> Determine the types deduced in each of the following definitions. Once you’ve figured out the types, write a program to see whether you were correct.
+
+```
+const int i = 42;
+auto j = i;
+const auto &k = i;
+auto *p = &i;
+const auto j2 = i, &k2 = i;
+```
+
+1. 'i' is of type `const int`. It has top level const.
+2. 'j' is of type `int`.
+3. 'k' is of type `const int&`, aka a reference. It has low level const.
+4. 'p' is of type `const int*`, aka a pointer. It has low level const.
+5. 'j2' is of type `const int`. It has top level const.
+6. 'k2' is of type `const int&`, aka a reference. It has low level const.
+
+## Exercise 2.36
+> In the following code, determine the type of each variable and the value each variable has when the code finishes:
+
+```
+int a = 3, b = 4;
+decltype(a) c = a;
+decltype((b)) d = a;
+++c;
+++d;
+```
+
+1. 'a' is of type `int` and will end with value 4.
+2. 'b' is of type `int` and will end with value 4.
+3. 'c' is of type `int` and will end with value 4.
+4. 'd' is of type `int&` (reference to 'a') and will end with value 4.
+
+## Exercise 2.37
+> Assignment is an example of an expression that yields a reference type. The type is a reference to the type of the left-hand operand. That is, if i is an int, then the type of the expression i = x is int&. Using that knowledge, determine the type and value of each variable in this code:
+
+```
+int a = 3, b = 4;
+decltype(a) c = a;
+decltype(a = b) d = a;
+```
+
+1. 'a' is of type `int` and has value 3.
+2. 'b' is of type `int` and has value 4.
+3. 'c' is of type `int` and has value 3.
+4. 'd' is of type `int&` (reference to 'a') and has value 3.
+
+## Exercise 2.38
+> Describe the differences in type deduction between decltype and auto. Give an example of an expression where auto and decltype will deduce the same type and an example where they will deduce differing types.
+
+1. `decltype` - Determines the type exactly as it appears within the brackets, whether it’s an object or an expression.
+2. `auto` - Uses the type of the assigned expression but ignores top-level const and references during type deduction.
+
+#### Same Type:
+```
+int a = 5;
+decltype(a) b = a;
+auto c = a;
+```
+
+Here both 'b' and 'c' are of type `int`.
+
+#### Different:
+```
+int a = 5, c = 10;
+decltype(a = c) b = a;
+auto d = a;
+```
+
+Here 'b' is of type `int&` (a reference to a), while 'd' is a of type `int`.
